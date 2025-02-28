@@ -1,0 +1,42 @@
+HTML폼 전송하는 방식
+  - application/x-www-form-urlencoded
+    => HTML폼데이터를 서버로 전송하는 기본 방식
+       name=value&name2=value2.....
+  - multipart/form-data
+
+파일업로드
+   1. view단 수정
+   - 파일업로드를 하는 경우 문자, 바이너리데이터와 name=value형식으로 같이 전송
+   - 바이너리와 문자를 동시에 전송
+   - multipart/form-data로 전송해야 두 가지를 모두 전송할 수 있다.
+      enctype="multipart/form-data"
+      요청방식:post
+
+   2. DTO수정
+   - 스프링MVC프레임워크 내부에서    multipart/form-data로 request가 전송되면
+     파일들을 읽어서 MultipartFile객체로 자동으로 만들어서 넘겨준다.
+   - DTO에  MultipartFile객체 타입의 변수를 정의
+   - 전송되는 파일이 여러 개 이면 자동으로 List<MultipartFile>이나 MultipartFile[]로 변환
+     개발자가 DTO에 선언하는 형식을 보고 자동으로 변환
+
+   3. 업로드될 폴더 설정
+   4. 업로드서비스를 구현
+      - 업로드로직을 구현한 메소드
+      - 저장되는 파일명을 만드는 메소드
+
+   5. 업로드되는 정보가 DB에 저장될 수 있도록 작업
+   6. 파일다운로드
+
+
+
+
+
+
+
+
+
+
+
+
+
+

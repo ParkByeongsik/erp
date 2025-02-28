@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp.board.mapper.BoardMapper">
+    <!--board테이블에 게시글 등록
+        Mapper인터페이스에서 전달되는 BoardDTO의 멤버변수의 값들을 꺼내서 tbboard테이블에 저장
+    -->
+    <!--게시글insert-->
+    <insert id="insert" parameterType="board">
+        insert into tbboard
+        values(null,#{id},sysdate(),#{title},#{content},#{category})
+    </insert>
+    <!--첨부파일이 여러 개가 insert
+    last_insert_id()는 현재 auto_increment된 값을 가져온다.
+    -->
+    <insert id="fileinsert" parameterType="java.util.List">
+        insert into board_file values
+        <foreach collection="list" item="file" separator=",">
+            (#{file.boardFileNo},last_insert_id(),#{file.originalFilename},#{file.storeFilename})
+        </foreach>
+    </insert>
+
+
+    <select id="selectall" resultType="board">
+        select * from tbboard
+    </select>
+    <select id="categorySelect" parameterType="String" resultType="board">
+        select * from tbboard where category = #{category}
+    </select>
+    <!--where절이 동적으로 생성
+       where절이 만들어지지 않는 상황이면 where이 추가되지 않는다.
+    -->
+    <select id="dynamicsearch" resultType="board" parameterType="Map">
+        select * from tbboard
+
+        <where>
+            <if test="tag=='id' and data!=''">
+                <!--조건이 만족하면 실행할 sql문을 정의-->
+                id like concat('%',#{data},'%')
+            </if>
+            <if test="tag=='title' and data!=''">
+                <!--조건이 만족하면 실행할 sql문을 정의-->
+                title like concat('%',#{data},'%')
+            </if>
+            <if test="tag=='content' and data!=''">
+                <!--조건이 만족하면 실행할 sql문을 정의-->
+                content like concat('%',#{data},'%')
+            </if>
+
+            <if test="tag=='write_date' and data!=''">
+                <!--조건이 만족하면 실행할 sql문을 정의-->
+                <!--
+                   <![CDATA[
+                      CDATA섹션 안에 추가하는 것들은 모두 문자열로 취급한다.
+                      태그로 인식하지 않는다.
+                   ]]>
+                -->
+                <![CDATA[
+                    write_date <= #{data}
+                ]]>
+            </if>
+        </where>
+    </select>
+    <select id="read" resultType="board" parameterType="String">
+            select * from tbboard where board_no = #{board_no}
+    </select>
+    <update id="update" parameterType="board">
+        update tbboard
+        set title=#{title},content=#{content},category=#{category}
+        where board_no=#{boardNo}
+    </update>
+    <select id="fileselect" parameterType="String" resultType="boardfile">
+        select * from board_file where board_no = #{boardNo}
+    </select>
+
+    <select id="getfileinfo" parameterType="String" resultType="boardfile">
+        select * from BOARD_FILE where board_file_no=#{boardFileno}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mainLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" th:inline="javascript">
+	$(document).ready(function(){
+		$("#noajaxbtn").on("click",function(){
+			location.href="/erp/noajax?id="+$("#id1").val();
+		});
+		$("#ajaxbtn").on("click",function(){
+			//ajax로 요청하기 - jQuery에서 지원되는 함수를 이용
+			//id라는 파라미터로 $("#id1").val()를 값으로 정의
+			/*
+			   $.ajax({
+			      url : 요청path(실행할 컨트롤러메소드에 정의한 path),
+			      type: 요청방식(get이나 post를 정의),
+
+			      data: 컨트롤러에전달할 query string (query string은 파라미터라 생각
+			                                       query string은 name과 value를 json형식으로
+			                                       정의),
+			      datatype: response되는 데이터의 유형(text,json)
+			      success:요청이성공하면 호출될 함수(여기서 성공했을때 표시될 뷰를 생성),
+			      error:요청이실패하면 호출될함수
+			    )}
+			 */
+			let querydata = {"id":$("#id1").val()}
+			$.ajax({
+				url:"/erp/ajax/ajaxtest01",
+				type:"get",
+				data: querydata,
+				datatype: "text",
+				success:success_run,
+				error:error_run
+			})
+		});//end click
+	});//end ready
+	//ajax요청이 성공하면 success_run이 자동으로 호출되면서 서버가 response는 데이터가 매개변수로
+	//전달
+	function success_run(resultdata){
+		console.log(resultdata);
+		window.open("https://online-payment.kakaopay.com/mockup/bridge/pc/pg/one-time/payment/20f799617757cd99fa4c7a5e50a5bb8fe161d18569b59a360d45385171f86d61", "_blank", "width=500, height=500, top=100, left=200, location=no, toolbar=no, menubar=no, scrollbars=no, resizable=no, status=no");
+		$("#result").html("<h2>ajax요청결과:"+resultdata+"</h2>")
+	}
+	//ajax요청이 실패하면 자동으로 실행되는 함수
+	//실패한 에러메시지가 자동으로 매개변수로 전달
+	//객체,응답메시지,에러메시지
+	function error_run(obj,msg1,msg2){
+		console.log("오류발생");
+		console.log(obj);
+		console.log(msg1);
+		console.log(msg2);
+	}
+</script>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h3>Ajax테스트하기</h3>
+		<form name="myform">
+			<input type="text" name="id" id="id1" /> 
+			<input type="text" name="name" id="name" /> 
+			<input type="button" id="noajaxbtn"	value="no aajx테스트"> 
+			<input type="button" id="ajaxbtn"	value="ajax테스트">
+		</form>
+		<div id="result" th:text="${msg}" style="color: red;font-weight: bold;"></div>
+
+		<h3>구구단출력하기</h3>
+		<form name="myform">
+			<input type="text" name="id" id="dan" /> <input type="button"
+				id="guguajaxbtn" value="구구단출력">
+		</form>
+		<div id="result2"></div>
+
+
+		<h3>Ajax테스트하기(JQuery...post)</h3>
+		<form name="myform">
+			<input type="text" name="id" id="id3" /> <input type="button"
+				id="ajaxbtn3" value="ajax테스트">
+		</form>
+		<div id="result3"></div>
+	</div>
+</body>
+</html>

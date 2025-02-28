@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/erp/common/css/main.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    /*  #toparea{
+        padding: 30px;
+    }  */
+    /* body{
+        background-color: #edeef1
+    } */
+  </style>
+  <title>Insert title here</title>
+</head>
+<body>
+  <div th:fragment="top">
+    <div style="height:90px;padding:10px">
+      <div id="toparea"  class="navbar navbar-inverse">
+        <a href="#" style="position:absolute;top:30px;font-size: 18pt; font-weight: bolder;text-decoration: none;padding-left: 10px">KimSaemERP</a>
+        <!--로그인하지 않았을때-->
+        <ul class="nav navbar-nav navbar-right"  th:if="${session.user==null}"   style="position:relative ;top:20px" >
+          <li style="margin-right: 20px;height: 70px">
+            <a href="/erp/emp/login"><span class="glyphicon glyphicon-log-in">
+                              </span>Login</a></li>
+
+        </ul>
+        <!--로그인성공-->
+        <ul   class="nav navbar-nav navbar-right"  style="position:relative ;top:20px" th:unless="${session.user==null}">
+          <li><a href="/erp/member/mypage"><span class="glyphicon glyphicon-log-out"></span>
+            마이페이지</a></li>
+          <li><a href="/erp/member/spring/logout"><span class="glyphicon glyphicon-log-out"></span>
+            Logout</a></li>
+        </ul>
+
+        <span  class="navbar-form pull-right" th:unless="${session.user==null}" >
+            <img  class="img-circle" style="width: 60px;height: 70px"
+                                th:src="@{/images/}+${session.user.profilePhoto}" />
+        </span>
+
+        <form class="navbar-form pull-right" style="position:relative ;top:20px">
+          <input class="form-control mr-sm-2" type="search"
+                 placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+        </form>
+
+      </div>
+
+    </div>
+    <nav>
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="/erp/menu/insa">업무관리</a></li>
+            <li><a href="#">자원관리</a></li>
+            <li><a href="/erp/board/list?category=all">커뮤니티</a></li>
+            <li><a href="/erp/member/view">일정관리</a></li>
+            <li><a href="#">휴가관리</a></li>
+            <li><a href="#">결재</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </div>
+</body>
+</html>

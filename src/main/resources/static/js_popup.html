@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<style type="text/css">
+			body{
+				background-color: skyblue
+			}
+		</style>
+		<script type="text/javascript">
+			// function showdata(zip,addr){
+			// 	//alert("주소 하이퍼링크를 선택하면 실행되는 함수:"+zip+addr);
+			// 	//팝업이 close되기 전에 opener에 값을 넘겨주기
+			// 	opener.document.myform.zipcode.value = zip;
+			// 	opener.document.myform.address.value = addr;
+			// 	window.close();
+			// }
+			// function getOpenerValue(){
+			// 	//팝업창이 뜨는 순간 오프너의 텍스트상자에 입력한 값을 읽어오기
+			// 	//팝업창의 텍스트상자 = 오프너의 텍스트상자
+			// 	document.getElementById("myid").value = opener.document.myform.id.value;
+			// //---------------------------------------   -----------------------------
+			// //    DOM방식으로 접근                               BOM방식으로 접근
+			// }
+		</script>
+	</head>
+	<body>
+		<form >
+			<input type="text" id="myid"/>
+			<input type="text" id="addr"/>
+			<input type="submit" value="검색"/>
+		</form>
+		<a href="javascript:showdata('111-111','서울시구로동')">구로동</a>
+		<a href="javascript:showdata('222-222','서울시신림동')">신림동</a>
+		<a href="javascript:showdata('333-333','서울시서초동')">서초동</a>
+		<a href="javascript:showdata('444-444','서울시경암동')">경암동</a>
+		<a href="javascript:showdata('555-555','서울시상암동')">상암동</a>
+	</body>
+</html>
+
+
+
+
+
+
+
+

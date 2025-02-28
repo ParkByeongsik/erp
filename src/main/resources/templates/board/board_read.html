@@ -1,0 +1,124 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mainLayout}">
+<head>
+  <title>인사관리시스템</title>
+  <link rel="stylesheet"
+        href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script
+          src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script
+          src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script type="text/javascript" th:inline="javascript">
+      $(document).ready(function (){
+          let category = [[${board.category}]]
+           $("#category").val(category).attr("selected","selected");
+      });
+
+
+  </script>
+</head>
+<body>
+  <div layout:fragment="content">
+    <form class="form-horizontal"
+          action=""
+          method="post" >
+
+
+      <div class="form-group">
+        <div class="col-md-2 text-right">
+          <label for="id" class="control-label">번호</label>
+        </div>
+        <div class="col-md-8" th:text="${board.boardNo}"></div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-2 text-right">
+          <label for="id" class="control-label">게시글종류</label>
+        </div>
+        <div class="col-md-3">
+          <select name="category" class="form-control"
+                  id="category">
+            <option value="경조사" >경조사</option>
+            <option value="사내소식">사내소식</option>
+            <option value="게시판">게시판(익명)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-2 text-right">
+          <label for="id" class="control-label">작성자</label>
+        </div>
+        <div class="col-md-8" th:text="${board.id}"></div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-2 text-right">
+          <label for="title" class="control-label">제목</label>
+        </div>
+        <div class="col-md-8" th:text="${board.title}"></div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-2 text-right">
+          <label for="title" class="control-label">첨부파일</label>
+        </div>
+        <div class="col-md-8" th:each="file:${boardfiledtolist}">
+          <!-- 디비에 저장된 파일명을 출력  -->
+<!--            						<a href="/erp/board/download/${board.id}/${board.board_no}/${file.board_file_no}">-->
+            <a th:href="@{/board/download/{id}/{boardNo}/{boardFileno}(id=${board.id},boardNo=${board.boardNo},boardFileno=${file.boardFileNo})}">
+              <span th:text="${file.originalFilename }"></span>
+            </a>
+<!--          <a th:href="@{/board/download(boardFileNo=${file.boardFileNo})}">-->
+<!--            <span th:text="${file.originalFilename }"></span>-->
+<!--          </a>-->
+          <!--<img th:src="|@{/download/}${file.storeFilename}|" width="200">-->
+         <!-- <img th:src="@{/download/}+${file.storeFilename}" width="50" th:each="file:${boardfiledtolist}">-->
+        </div>
+
+      </div>
+      <div class="form-group">
+        <div class="col-md-2 text-right">
+          <label for="title" class="control-label"></label>
+        </div>
+        <div class="col-md-8" >
+
+          <img th:src="@{/download/}+${file.storeFilename}" width="50" th:each="file:${boardfiledtolist}"  >
+        </div>
+
+      </div>
+      <div class="form-group">
+        <div class="col-md-2 text-right">
+          <label for="title" class="control-label">작성날짜</label>
+        </div>
+        <div class="col-md-8" th:text="${board.writeDate}">dasdfasdfa</div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-2 text-right">
+          <label for="text" class="control-label">내용</label>
+        </div>
+        <div class="col-md-8"
+             style="width: 500px; height: 400px; border: solid 1px;" th:text="${board.content}">
+
+        </div>
+      </div>
+      <!--자바스크립트코드를 타임리프에서 실행하는 경우 | |안에서 정의-->
+      <div class="form-group">
+        <div class="col-md-10 text-center">
+          <input type="button" class="btn btn-lg btn-primary"
+
+                 th:onclick="|location.href='@{/board/read(boardNo=${board.boardNo},action=UPDATE)}'|"
+                 value="수정">
+
+          <button type="button" class="btn btn-danger btn-lg"
+                  onclick="location.href='/stswebTest/board/list.do'">
+            <i class="fa fa-fw fa-close"></i> 목록
+          </button>
+          <button type="button" class="btn btn-danger btn-lg"
+                  id="deletebtn">
+            <i class="fa fa-fw fa-close"></i> 삭제
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
